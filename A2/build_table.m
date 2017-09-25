@@ -1,4 +1,10 @@
 function table = build_table(filename)
+% Author:
+% Haochen Zhang
+% UU
+% Fall 2017
+
+% 68 col are the labels
 delimiterIn = ' ';
 temp = importdata(filename,delimiterIn);
 temp = regexp(temp,' ', 'split');
