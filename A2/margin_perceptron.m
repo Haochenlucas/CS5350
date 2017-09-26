@@ -25,4 +25,3 @@ for i = 1: epoch
         t = t + 1;
     end
 end
-e = e / epoch;

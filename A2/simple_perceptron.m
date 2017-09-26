@@ -23,4 +23,3 @@ for i = 1: epoch
         end
     end
 end
-e = e / epoch;
