@@ -3,9 +3,9 @@ function [train, test] = separate_data(table)
 %                 one for testing. Training data is from 2010 to 2014.
 %                 Testing data is in 2015.
 % On input:
-%       the data table;
+%       the data table
 % On output:
-%       the new data talbe
+%       the new data table: train and test.
 % Call:
 %       table = reform_data(table);
 % Author:
