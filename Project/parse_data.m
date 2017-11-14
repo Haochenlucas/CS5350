@@ -32,7 +32,6 @@ function table = parse_data(filename)
 % -1 as valuse means missing data
 
 table = csvread(filename,1,1);
-table = clear_data(table);
 table = reform_data(table);
 
 end
