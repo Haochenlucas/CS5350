@@ -22,6 +22,10 @@ infor_gain = zeros(num_attributes, 1);
 
 for i = 1:num_attributes
     if attributes(i) == 1
+        % get how many values each attribute have
+        % Note that "tree" are not used in this case
+        [~, node_number] = create_treenode(i);
+        
         count_1_invit1 = 0;
         count_1 = 0;
         count_0_invit1 = 0;
@@ -61,7 +65,7 @@ for i = 1:num_attributes
 
         infor_gain(i) = H;
     else
-        % attribute is not an option, set to 1 which will be the highest
+        % attribute is not an option, set to 2 which will be the highest
         infor_gain(i) = 2;
     end
 end

@@ -1,3 +1,3 @@
-clear all;
-table = parse_data("BeijingPM20100101_20151231.csv");
-[train, test] = DT_transform_features( table );
+[train, test] = DT_transform_features(City);
+attributes = ones(length(train(1,:))-1, 1);
+tree = ID3(train, attributes);

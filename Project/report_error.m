@@ -1,13 +1,7 @@
-function report = report_error(tree, data)
+function report = report_error(tree, test)
 
 report = 0;
-num_data = length(data(:,1));
-
-% IMPORTANT
-% YES: -1 NO: 0
-% YES: -1 NO: 0
-% YES: -1 NO: 0
-% IMPORTANT
+num_data = length(test(:,1));
 
 for i = 1:num_data
     workingtree = tree;
@@ -17,17 +11,17 @@ for i = 1:num_data
             j = workingtree.value;
         end
         if j == -1
-            if data(i, 7) == 0
+            if test(i, 7) == 0
                 report = report + 1;
             end
             break;
         elseif j == 0
-            if data(i, 7) == 1
+            if test(i, 7) == 1
                 report = report + 1;
             end
             break;
         else
-            if data(i,j) == 1
+            if test(i,j) == 1
                 if isa(workingtree.Yes, 'double')
                     j = workingtree.Yes;
                 else

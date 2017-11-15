@@ -29,6 +29,8 @@ function [train, test] = DT_transform_features( ini_table )
 % 11: PM2.5 concentration (ug/m^3)
 % --------------------------------------------------------
 
+% Put every attribute into 6 parts
+
 % Day 1-5 is labeled as 1;
 % Day 6-10 is labeled as 2;
 % Day 11-15 is labeled as 3;
@@ -52,81 +54,60 @@ for i = 0:len-1
     end
 end
 
-% Hour 0-1 is labeled as 1;
-% Hour 2-3 is labeled as 2;
-% Hour 4-5 is labeled as 3;
-% Hour 6-7 is labeled as 4;
-% Hour 8-9 is labeled as 5;
-% Hour 10-11 is labeled as 6;
-% Hour 12-13 is labeled as 7;
-% Hour 14-15 is labeled as 8;
-% Hour 16-17 is labeled as 9;
-% Hour 18-19 is labeled as 10;
-% Hour 20-21 is labeled as 11;
-% Hour 22-23 is labeled as 12;
+% Hour 0-3 is labeled as 1;
+% Hour 4-7 is labeled as 2;
+% Hour 8-11 is labeled as 3;
+% Hour 12-15 is labeled as 4;
+% Hour 16-19 is labeled as 5;
+% Hour 20-23 is labeled as 6;
 len = length(ini_table(:,1));
 for i = 0:len-1
-    ini_table(len-i,4) = floor(ini_table(len-i,4) / 2) + 1;
+    ini_table(len-i,4) = floor(ini_table(len-i,4) / 6) + 1;
 end
 
-% Dew Point -40 - -30 is labeled as 1;
-% Dew Point -30 - -20 is labeled as 2;
-% Dew Point -20 - -10 is labeled as 3;
-% Dew Point -10 - 0 is labeled as 4;
-% Dew Point 0 - -10 is labeled as 5;
-% Dew Point 10 - 20 is labeled as 6;
-% Dew Point 20 - 30 is labeled as 7;
+% Dew Point -40 - -28 is labeled as 1;
+% Dew Point -27 - -15 is labeled as 2;
+% Dew Point -14 - -2 is labeled as 3;
+% Dew Point -3 - 9 is labeled as 4;
+% Dew Point 10 - 22 is labeled as 5;
+% Dew Point 23 - 35 is labeled as 6;
 
 for i = 0:len-1
-    if ini_table(len-i,7) >= -40 && ini_table(len-i,7) < -31
+    if ini_table(len-i,7) >= -40 && ini_table(len-i,7) < -27
         ini_table(len-i,7) = 1;
-    elseif ini_table(len-i,7) >= -31 && ini_table(len-i,7) < -21
+    elseif ini_table(len-i,7) >= -27 && ini_table(len-i,7) < -14
         ini_table(len-i,7) = 2;
-    elseif ini_table(len-i,7) >= -21 && ini_table(len-i,7) < -11
+    elseif ini_table(len-i,7) >= -14 && ini_table(len-i,7) < -3
         ini_table(len-i,7) = 3;
-    elseif ini_table(len-i,7) >= -11 && ini_table(len-i,7) < 1
+    elseif ini_table(len-i,7) >= -3 && ini_table(len-i,7) < 10
         ini_table(len-i,7) = 4;
-    elseif ini_table(len-i,7) >= 1 && ini_table(len-i,7) < 11
+    elseif ini_table(len-i,7) >= 10 && ini_table(len-i,7) < 23
         ini_table(len-i,7) = 5;
-    elseif ini_table(len-i,7) >= 11 && ini_table(len-i,7) < 21
+    elseif ini_table(len-i,7) >= 23 && ini_table(len-i,7) <= 35
         ini_table(len-i,7) = 6;
-    elseif ini_table(len-i,7) >= 21 && ini_table(len-i,7) < 31
-        ini_table(len-i,7) = 7;
     end
 end
 
-% Humidity 0 - 10 is labeled as 1;
-% Humidity 11 - 20 is labeled as 2;
-% Humidity 21 - 30 is labeled as 3;
-% Humidity 31 - 40 is labeled as 4;
-% Humidity 41 - 50 is labeled as 5;
-% Humidity 51 - 60 is labeled as 6;
-% Humidity 61 - 70 is labeled as 7;
-% Humidity 71 - 80 is labeled as 8;
-% Humidity 81 - 90 is labeled as 9;
-% Humidity 91 - 100 is labeled as 10;
+% Humidity 0 - 16.6 is labeled as 1;
+% Humidity 16.7 - 33.3 is labeled as 2;
+% Humidity 33.4 - 40 is labeled as 3;
+% Humidity 40.1 - 56.7 is labeled as 4;
+% Humidity 56.8 - 73.4 is labeled as 5;
+% Humidity 73.5 - 100 is labeled as 6;
 
 for i = 0:len-1
-    if ini_table(len-i,8) >= 0 && ini_table(len-i,8) < 11
+    if ini_table(len-i,8) >= 0 && ini_table(len-i,8) < 16.7
         ini_table(len-i,8) = 1;
-    elseif ini_table(len-i,8) >= 11 && ini_table(len-i,8) < 21
+    elseif ini_table(len-i,8) >= 16.7 && ini_table(len-i,8) < 33.4
         ini_table(len-i,8) = 2;
-    elseif ini_table(len-i,8) >= 21 && ini_table(len-i,8) < 31
+    elseif ini_table(len-i,8) >= 33.4 && ini_table(len-i,8) < 40.1
         ini_table(len-i,8) = 3;
-    elseif ini_table(len-i,8) >= 31 && ini_table(len-i,8) < 41
+    elseif ini_table(len-i,8) >= 40.1 && ini_table(len-i,8) < 56.8
         ini_table(len-i,8) = 4;
-    elseif ini_table(len-i,8) >= 41 && ini_table(len-i,8) < 51
+    elseif ini_table(len-i,8) >= 56.8 && ini_table(len-i,8) < 73.5
         ini_table(len-i,8) = 5;
-    elseif ini_table(len-i,8) >= 51 && ini_table(len-i,8) < 61
+    elseif ini_table(len-i,8) >= 73.5 && ini_table(len-i,8) <= 100
         ini_table(len-i,8) = 6;
-    elseif ini_table(len-i,8) >= 61 && ini_table(len-i,8) < 71
-        ini_table(len-i,8) = 7;
-    elseif ini_table(len-i,8) >= 71 && ini_table(len-i,8) < 81
-        ini_table(len-i,8) = 8;
-    elseif ini_table(len-i,8) >= 81 && ini_table(len-i,8) < 91
-        ini_table(len-i,8) = 9;
-    elseif ini_table(len-i,8) >= 91 && ini_table(len-i,8) < 100
-        ini_table(len-i,8) = 10;
     end
 end
 
@@ -134,7 +115,8 @@ end
 % Pressure 1001 - 1010 is labeled as 2;
 % Pressure 1011 - 1020 is labeled as 3;
 % Pressure 1021 - 1030 is labeled as 4;
-% Pressure 1031 - 1046 is labeled as 5;
+% Pressure 1031 - 1040 is labeled as 5;
+% Pressure 1041 - 1046 is labeled as 6;
 
 for i = 0:len-1
     if ini_table(len-i,9) >= 991 && ini_table(len-i,9) < 1001
@@ -145,8 +127,10 @@ for i = 0:len-1
         ini_table(len-i,9) = 3;
     elseif ini_table(len-i,9) >= 1021 && ini_table(len-i,9) < 1031
         ini_table(len-i,9) = 4;
-    elseif ini_table(len-i,9) >= 1031 && ini_table(len-i,9) < 1047
+    elseif ini_table(len-i,9) >= 1031 && ini_table(len-i,9) < 1041
         ini_table(len-i,9) = 5;
+    elseif ini_table(len-i,9) >= 1041 && ini_table(len-i,9) <= 1050
+        ini_table(len-i,9) = 6;
     end
 end
 
