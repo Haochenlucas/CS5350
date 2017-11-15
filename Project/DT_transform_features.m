@@ -31,6 +31,29 @@ function [train, test] = DT_transform_features( ini_table )
 
 % Put every attribute into 6 parts
 
+% Month 1-5 is labeled as 1;
+% Day 6-10 is labeled as 2;
+% Day 11-15 is labeled as 3;
+% Day 16-20 is labeled as 4;
+% Day 21-25 is labeled as 5;
+% Day 26-31 is labeled as 6;
+len = length(ini_table(:,1));
+for i = 0:len-1
+    if ini_table(len-i,3) >= 1 && ini_table(len-i,3) < 6
+        ini_table(len-i,3) = 1;
+    elseif ini_table(len-i,3) >= 6 && ini_table(len-i,3) < 11
+        ini_table(len-i,3) = 2;
+    elseif ini_table(len-i,3) >= 11 && ini_table(len-i,3) < 16
+        ini_table(len-i,3) = 3;
+    elseif ini_table(len-i,3) >= 16 && ini_table(len-i,3) < 21
+        ini_table(len-i,3) = 4;
+    elseif ini_table(len-i,3) >= 21 && ini_table(len-i,3) < 26
+        ini_table(len-i,3) = 5;
+    elseif ini_table(len-i,3) >= 26 && ini_table(len-i,3) <= 31
+        ini_table(len-i,3) = 6;
+    end
+end
+
 % Day 1-5 is labeled as 1;
 % Day 6-10 is labeled as 2;
 % Day 11-15 is labeled as 3;

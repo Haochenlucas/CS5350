@@ -47,8 +47,11 @@ if all_same_label
     end
 else
     % Labels which attributes are available
-    best = information_gain(s, attributes);
-    [tree, node_num] = create_treenode(best);
+    best = information_gain(s, attributes, 6);
+    tree = struct('value', 'null', 'a', 'null', 'b', 'null',...
+            'c', 'null', 'd', 'null', 'e', 'null'...
+            , 'f', 'null');
+    node_num = 6;
     tree.value = best;
     attributes(best) = 0;
     
@@ -100,42 +103,6 @@ else
                     else
                         tree.f = 0;
                     end
-                case 7
-                    if mode(s(:,11)) == 1
-                        tree.g = 1;
-                    else
-                        tree.g = 0;
-                    end
-                case 8
-                    if mode(s(:,11)) == 1
-                        tree.h = 1;
-                    else
-                        tree.h = 0;
-                    end
-                case 9
-                    if mode(s(:,11)) == 1
-                        tree.i = 1;
-                    else
-                        tree.i = 0;
-                    end
-                case 10
-                    if mode(s(:,11)) == 1
-                        tree.j = 1;
-                    else
-                        tree.j = 0;
-                    end
-                case 11
-                    if mode(s(:,11)) == 1
-                        tree.k = 1;
-                    else
-                        tree.k = 0;
-                    end
-                case 12
-                    if mode(s(:,11)) == 1
-                        tree.l = 1;
-                    else
-                        tree.l = 0;
-                    end
                 otherwise
                     disp("Error in assign value (1)");
             end
@@ -177,42 +144,6 @@ else
                     else
                         tree.f = 0;
                     end
-                case 7
-                    if mode(sub_s(:,11)) == 1
-                        tree.g = 1;
-                    else
-                        tree.g = 0;
-                    end
-                case 8
-                    if mode(sub_s(:,11)) == 1
-                        tree.h = 1;
-                    else
-                        tree.h = 0;
-                    end
-                case 9
-                    if mode(sub_s(:,11)) == 1
-                        tree.i = 1;
-                    else
-                        tree.i = 0;
-                    end
-                case 10
-                    if mode(sub_s(:,11)) == 1
-                        tree.j = 1;
-                    else
-                        tree.j = 0;
-                    end
-                case 11
-                    if mode(sub_s(:,11)) == 1
-                        tree.k = 1;
-                    else
-                        tree.k = 0;
-                    end
-                case 12
-                    if mode(sub_s(:,11)) == 1
-                        tree.l = 1;
-                    else
-                        tree.l = 0;
-                    end
                 otherwise
                     disp("Error in assign value (2)");
             end
@@ -230,18 +161,6 @@ else
                     tree.e = ID3(sub_s, attributes);
                 case 6
                     tree.f = ID3(sub_s, attributes);
-                case 7
-                    tree.g = ID3(sub_s, attributes);
-                case 8
-                    tree.h = ID3(sub_s, attributes);
-                case 9
-                    tree.i = ID3(sub_s, attributes);
-                case 10
-                    tree.j = ID3(sub_s, attributes);
-                case 11
-                    tree.k = ID3(sub_s, attributes);
-                case 12
-                    tree.l = ID3(sub_s, attributes);
                 otherwise
                     disp("Error in iterating tree nodes");
             end
