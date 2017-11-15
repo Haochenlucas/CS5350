@@ -57,52 +57,193 @@ else
     for i = 1:node_num
         sub_s = [];
         for j = 1:labels_num
-            if s(i, best) == i
+            if s(j, best) == i
                 sub_s = [sub_s;s(i,:)];
             end
         end
-        
-        if (isempty(sub_s)) || all(attributes(:) == 0)
-            
-        end
-    end
-    
-    % iterate through the branch
-    for i = 1:2
-        if (i == 1 && isempty(s_y)) || (i == 2 && isempty(s_n))...
-                || all(attributes(:) == 0)
-            if i == 1 && isempty(s_y)
-                if mode(s_n(:,7)) == 1
-                    pruned_tree.Yes = -1;
-                else
-                    pruned_tree.Yes = 0;
-                end
-            elseif i == 2 && isempty(s_n)
-                if mode(s_y(:,7)) == 1
-                    pruned_tree.No = -1;
-                else
-                    pruned_tree.No = 0;
-                end
-            elseif i == 1
-                if mode(s_y(:,7)) == 1
-                    tree.Yes = -1;
-                else
-                    tree.Yes = 0;
-                end
-                %tree.Yes = mode(s(:,7));
-            elseif i == 2
-                if mode(s_n(:,7)) == 1
-                    tree.No = -1;
-                else
-                    tree.No = 0;
-                end
-                %tree.No = mode(s(:,7));
+      
+        if isempty(sub_s)
+            switch i
+                case 1
+                    if mode(s(:,11)) == 1
+                        tree.a = 1;
+                    else
+                        tree.a = 0;
+                    end
+                case 2
+                    if mode(s(:,11)) == 1
+                        tree.b = 1;
+                    else
+                        tree.b = 0;
+                    end
+                case 3
+                    if mode(s(:,11)) == 1
+                        tree.c = 1;
+                    else
+                        tree.c = 0;
+                    end
+                case 4
+                    if mode(s(:,11)) == 1
+                        tree.d = 1;
+                    else
+                        tree.d = 0;
+                    end
+                case 5
+                    if mode(s(:,11)) == 1
+                        tree.e = 1;
+                    else
+                        tree.e = 0;
+                    end
+                case 6
+                    if mode(s(:,11)) == 1
+                        tree.f = 1;
+                    else
+                        tree.f = 0;
+                    end
+                case 7
+                    if mode(s(:,11)) == 1
+                        tree.g = 1;
+                    else
+                        tree.g = 0;
+                    end
+                case 8
+                    if mode(s(:,11)) == 1
+                        tree.h = 1;
+                    else
+                        tree.h = 0;
+                    end
+                case 9
+                    if mode(s(:,11)) == 1
+                        tree.i = 1;
+                    else
+                        tree.i = 0;
+                    end
+                case 10
+                    if mode(s(:,11)) == 1
+                        tree.j = 1;
+                    else
+                        tree.j = 0;
+                    end
+                case 11
+                    if mode(s(:,11)) == 1
+                        tree.k = 1;
+                    else
+                        tree.k = 0;
+                    end
+                case 12
+                    if mode(s(:,11)) == 1
+                        tree.l = 1;
+                    else
+                        tree.l = 0;
+                    end
+                otherwise
+                    disp("Error in assign value (1)");
+            end
+        elseif all(attributes(:) == 0)
+            switch i
+                case 1
+                    if mode(sub_s(:,11)) == 1
+                        tree.a = 1;
+                    else
+                        tree.a = 0;
+                    end
+                case 2
+                    if mode(sub_s(:,11)) == 1
+                        tree.b = 1;
+                    else
+                        tree.b = 0;
+                    end
+                case 3
+                    if mode(sub_s(:,11)) == 1
+                        tree.c = 1;
+                    else
+                        tree.c = 0;
+                    end
+                case 4
+                    if mode(sub_s(:,11)) == 1
+                        tree.d = 1;
+                    else
+                        tree.d = 0;
+                    end
+                case 5
+                    if mode(sub_s(:,11)) == 1
+                        tree.e = 1;
+                    else
+                        tree.e = 0;
+                    end
+                case 6
+                    if mode(sub_s(:,11)) == 1
+                        tree.f = 1;
+                    else
+                        tree.f = 0;
+                    end
+                case 7
+                    if mode(sub_s(:,11)) == 1
+                        tree.g = 1;
+                    else
+                        tree.g = 0;
+                    end
+                case 8
+                    if mode(sub_s(:,11)) == 1
+                        tree.h = 1;
+                    else
+                        tree.h = 0;
+                    end
+                case 9
+                    if mode(sub_s(:,11)) == 1
+                        tree.i = 1;
+                    else
+                        tree.i = 0;
+                    end
+                case 10
+                    if mode(sub_s(:,11)) == 1
+                        tree.j = 1;
+                    else
+                        tree.j = 0;
+                    end
+                case 11
+                    if mode(sub_s(:,11)) == 1
+                        tree.k = 1;
+                    else
+                        tree.k = 0;
+                    end
+                case 12
+                    if mode(sub_s(:,11)) == 1
+                        tree.l = 1;
+                    else
+                        tree.l = 0;
+                    end
+                otherwise
+                    disp("Error in assign value (2)");
             end
         else
-            if i == 1
-                tree.Yes = ID3(s_y, attributes);
-            elseif i == 2
-                tree.No = ID3(s_n, attributes);
+            switch i
+                case 1
+                    tree.a = ID3(sub_s, attributes);
+                case 2
+                    tree.b = ID3(sub_s, attributes);
+                case 3
+                    tree.c = ID3(sub_s, attributes);
+                case 4
+                    tree.d = ID3(sub_s, attributes);
+                case 5
+                    tree.e = ID3(sub_s, attributes);
+                case 6
+                    tree.f = ID3(sub_s, attributes);
+                case 7
+                    tree.g = ID3(sub_s, attributes);
+                case 8
+                    tree.h = ID3(sub_s, attributes);
+                case 9
+                    tree.i = ID3(sub_s, attributes);
+                case 10
+                    tree.j = ID3(sub_s, attributes);
+                case 11
+                    tree.k = ID3(sub_s, attributes);
+                case 12
+                    tree.l = ID3(sub_s, attributes);
+                otherwise
+                    disp("Error in iterating tree nodes");
             end
         end
     end

@@ -52,6 +52,23 @@ for i = 0:len-1
     end
 end
 
+% Hour 0-1 is labeled as 1;
+% Hour 2-3 is labeled as 2;
+% Hour 4-5 is labeled as 3;
+% Hour 6-7 is labeled as 4;
+% Hour 8-9 is labeled as 5;
+% Hour 10-11 is labeled as 6;
+% Hour 12-13 is labeled as 7;
+% Hour 14-15 is labeled as 8;
+% Hour 16-17 is labeled as 9;
+% Hour 18-19 is labeled as 10;
+% Hour 20-21 is labeled as 11;
+% Hour 22-23 is labeled as 12;
+len = length(ini_table(:,1));
+for i = 0:len-1
+    ini_table(len-i,4) = floor(ini_table(len-i,4) / 2) + 1;
+end
+
 % Dew Point -40 - -30 is labeled as 1;
 % Dew Point -30 - -20 is labeled as 2;
 % Dew Point -20 - -10 is labeled as 3;

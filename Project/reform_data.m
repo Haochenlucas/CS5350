@@ -63,7 +63,11 @@ end
 len = length(ini_table(:,1));
 for i = 0:len-1
     counter = 0;
-    for j = 1:14
+    for j = 1:13
+        % wind direction data missing
+        if j == 11 && ini_table(len-i,j) == -1
+            ini_table(len-i,:) = [];
+        end
         if ini_table(len-i,j) == -1
             counter = counter + 1;
         end
