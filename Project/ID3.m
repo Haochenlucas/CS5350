@@ -1,67 +1,69 @@
 function tree = ID3(s, attributes)
 % ID3 - base decision tree algorithm
-% Uses information gain to choose best attribute as node to form a decision
-% tree.
+%   Uses information gain to choose best attribute as node... 
+%   to form a decision tree.
 % On input:
-% S: the set of Examples	
-% Label: the target attribute the prediction	
-% Attributes: the set of measured attributes	
+%   S: the set of Examples	
+%   Attributes: the set of measured attributes	
 % On output:
-% tree
+%   tree
 % Call:
-% tree = CS4300_agent_Astar([0,0,0,0,...], "feature", "invited");
+%   tree = ID3(table, [0,0,0,0,...]);
 % Author:
-% Haochen Zhang
-% UU
-% Fall 2017
+%   Haochen Zhang
+%   UU
+%   Fall 2017
 %
 
-tree = struct('value', 'null', 'Yes', 'null', 'No', 'null');
 labels_num = length(s(:,1));
 all_same_label = 1;
-sum_label = sum(s(:,7));
+% Col 11 is the label space
+sum_label = sum(s(:,11));
 if sum_label ~= labels_num && sum_label ~= 0
     all_same_label = 0;
 end
 
-% IMPORTANT
-% YES: -1 NO: 0
-% YES: -1 NO: 0
-% YES: -1 NO: 0
-% IMPORTANT
 if all_same_label
-    if s(1,7) == 1
-        tree.value = -1;
-    else
-        tree.value = 0;
+    tree = struct('value', 'null');
+    switch s(1,11)
+        case 1
+            tree.value = 1;
+        case 2
+            tree.value = 2;
+        case 3
+            tree.value = 3;
+        case 4
+            tree.value = 4;
+        case 5
+            tree.value = 5;
+        case 6
+            tree.value = 6;
+        case 7
+            tree.value = 7;
+        case 8
+            tree.value = 8;
+        otherwise
+            tree.value = 0;
     end
 else
-    % count_1 = 0;
-    % for i = 1:labels_num
-    %     if (s(i,7) == 1)
-    %         count_1 = count_1 + 1;
-    %     end
-    % end
-    % count_0 = labels_num - count_1;
-    
-    % entropy = - count_1 / labels_num * log2(count_1 / labels_num) - ...
-    % count_0 / labels_num * log2(count_0 / labels_num);
-    
-    
-    
     % Labels which attributes are available
     best = information_gain(s, attributes);
+    [tree, node_num] = create_treenode(best);
     tree.value = best;
     attributes(best) = 0;
     
-    % split the data into two part
-    s_y = [];
-    s_n = [];
-    for i = 1:labels_num
-        if s(i, best) == 1
-            s_y = [s_y;s(i,:)];
-        else
-            s_n = [s_n;s(i,:)];
+    % split the data into n parts
+    % dependes on how many level the attribute has
+    for i = 1:node_num
+        sub_s = [];
+        for j = 1:labels_num
+            if s(i, best) == i
+                sub_s = [sub_s;s(i,:)];
+            end
+        end
+        
+        if (isempty(sub_s)) || all(attributes(:) == 0)
+            
         end
     end
     

@@ -19,7 +19,7 @@ function table = parse_data(filename)
 % 3: day
 % 4: hour
 % 5: season(1:Spring, 2:Summer, 3:Fall, 4:Winter)
-% 6: PM2.5 concentration (ug/m^3)
+% 6: Cumulated precipitation (mm)
 % 7: Dew Point (Celsius Degree)
 % 8: Humidity (%)
 % 9: Pressure (hPa)
@@ -27,7 +27,7 @@ function table = parse_data(filename)
 % 11: Combined wind direction 
 % 12: Cumulated wind speed (m/s)
 % 13: hourly precipitation (mm) 
-% 14: Cumulated precipitation (mm)
+% 14: PM2.5 concentration (ug/m^3)
 
 % -1 as valuse means missing data
 

@@ -38,7 +38,7 @@ ini_table(:,end) = temp;
 % 7: 350.5-500
 % 8: 500-
 
-len = length(ini_table(:,6));
+len = length(ini_table(:,1));
 for i = 0:len-1
     if ini_table(len-i,end) >= 0 && ini_table(len-i,end) < 12
         ini_table(len-i,end) = 1;
@@ -56,6 +56,20 @@ for i = 0:len-1
         ini_table(len-i,end) = 7;
     elseif ini_table(len-i,end) >= 500
         ini_table(len-i,end) = 8;
+    end
+end
+
+% Delete the rows with missing data on multiple attributes
+len = length(ini_table(:,1));
+for i = 0:len-1
+    counter = 0;
+    for j = 1:14
+        if ini_table(len-i,j) == -1
+            counter = counter + 1;
+        end
+    end
+    if counter >= 2
+        ini_table(len-i,:) = [];
     end
 end
 

@@ -1,18 +1,19 @@
 function max_gain = information_gain(s, attributes)
 % information_gain - calculate the information gain and return the
-% attribute with the largest information gain
-% Weighing the entropy of each partition by its size relative to the original set	
+%       attribute with the largest information gain...
+%       Weighing the entropy of each partition by its size ...
+%       relative to the original set	
 % On input:
-% attributes: available attributes
-% s: set of examples
+%   attributes: available attributes
+%   s: set of examples
 % On output:
-% information gain
+%   information gain
 % Call:
-% gain = information_gain(0.341, entropy_v)
+%   gain = information_gain(s, entropy_v)
 % Author:
-% Haochen Zhang
-% UU
-% Fall 2017
+%   Haochen Zhang
+%   UU
+%   Fall 2017
 %
 
 num_labels = length(s(:,1));
