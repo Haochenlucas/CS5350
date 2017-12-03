@@ -1,4 +1,4 @@
-function pruned_tree = cross_validation(s, attributes, depth)
+function pruned_tree = ID3_w_depth(s, attributes, depth)
 
 % ID3 - base decision tree algorithm
 % Uses information gain to choose best attribute as node to form a decision
@@ -20,8 +20,8 @@ depth = depth - 1;
 pruned_tree = struct('value', 'null', 'Yes', 'null', 'No', 'null');
 labels_num = length(s(:,1));
 all_same_label = 1;
-sum_label = sum(s(:,7));
-if sum_label ~= labels_num && sum_label ~= 0
+sum_label = sum(s(:,70000));
+if (sum_label ~= labels_num || sum_label ~= -labels_num) && labels_num ~= 0
     all_same_label = 0;
 end
 
@@ -31,16 +31,18 @@ end
 % YES: -1 NO: 0
 % IMPORTANT
 if all_same_label
-    switch s(1,7) 
+    switch s(1,70000) 
         case 1
             pruned_tree.value = -1;
-        case 2
+        case -1
             pruned_tree.value = 0;
         otherwise
             pruned_tree.value = 0;
     end
 else
     % Labels which attributes are available
+    best = information_gain(s, attributes);
+    
     best = information_gain(s, attributes);
     pruned_tree.value = best;
     attributes(best) = 0;
@@ -62,13 +64,13 @@ else
         if isempty(sub_s)
             switch i
                 case 1
-                    if mode(s(:,7)) == 1
+                    if mode(s(:,70000)) == 1
                         pruned_tree.Yes = -1;
                     else
                         pruned_tree.Yes = 0;
                     end
                 case 2
-                    if mode(s(:,7)) == 1
+                    if mode(s(:,70000)) == 1
                         pruned_tree.No = -1;
                     else
                         pruned_tree.No = 0;
@@ -77,13 +79,13 @@ else
         elseif all(attributes(:) == 0) || depth == 0
             switch i
                 case 1
-                    if mode(sub_s(:,7)) == 1
+                    if mode(sub_s(:,70000)) == 1
                         pruned_tree.Yes = -1;
                     else
                         pruned_tree.Yes = 0;
                     end
                 case 2  
-                    if mode(sub_s(:,7)) == 1
+                    if mode(sub_s(:,70000)) == 1
                         pruned_tree.No = -1;
                     else
                         pruned_tree.No = 0;
@@ -91,9 +93,9 @@ else
             end
         else
             if i == 1
-                pruned_tree.Yes = cross_validation(sub_s, attributes,depth);
+                pruned_tree.Yes = ID3_w_depth(sub_s, attributes,depth);
             elseif i == 2
-                pruned_tree.No = cross_validation(sub_s, attributes,depth);
+                pruned_tree.No = ID3_w_depth(sub_s, attributes,depth);
             end
         end
     end

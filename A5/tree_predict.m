@@ -1,6 +1,5 @@
-function report = ID3_error(tree, data)
+function predict = tree_predict(tree, data)
 
-report = 0;
 num_data = length(data(:,1));
 
 % IMPORTANT
@@ -9,6 +8,9 @@ num_data = length(data(:,1));
 % YES: -1 NO: 0
 % IMPORTANT
 
+num_1 = 0;
+num_n1 = 0;
+
 for i = 1:num_data
     workingtree = tree;
     j = 1;
@@ -16,15 +18,12 @@ for i = 1:num_data
         if j >= 1
             j = workingtree.value;
         end
+        % -1 is yes and 0 is no
         if j == -1
-            if data(i, 7) == 0
-                report = report + 1;
-            end
+            predict(i) = 1;
             break;
         elseif j == 0
-            if data(i, 7) == 1
-                report = report + 1;
-            end
+            predict(i) = 0;
             break;
         else
             if data(i,j) == 1

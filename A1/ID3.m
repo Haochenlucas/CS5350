@@ -39,7 +39,6 @@ if all_same_label
             tree.value = 0;
     end
 else
-    
     % Labels which attributes are available
     best = information_gain(s, attributes);
     tree.value = best;
@@ -97,55 +96,6 @@ else
             end
         end
     end
-    
-%     % split the data into two part
-%     s_y = [];
-%     s_n = [];
-%     for i = 1:labels_num
-%         if s(i, best) == 1
-%             s_y = [s_y;s(i,:)];
-%         else
-%             s_n = [s_n;s(i,:)];
-%         end
-%     end
-%     
-%     % iterate through the branch
-%     for i = 1:2
-%         if (i == 1 && isempty(s_y)) || (i == 2 && isempty(s_n))...
-%                 || all(attributes(:) == 0)
-%             if i == 1 && isempty(s_y)
-%                 if mode(s(:,7)) == 1
-%                     tree.Yes = -1;
-%                 else
-%                     tree.Yes = 0;
-%                 end
-%             elseif i == 2 && isempty(s_n)
-%                 if mode(s(:,7)) == 1
-%                     tree.No = -1;
-%                 else
-%                     tree.No = 0;
-%                 end
-%             elseif i == 1
-%                 if mode(s_y(:,7)) == 1
-%                     tree.Yes = -1;
-%                 else
-%                     tree.Yes = 0;
-%                 end
-%             elseif i == 2
-%                 if mode(s_n(:,7)) == 1
-%                     tree.No = -1;
-%                 else
-%                     tree.No = 0;
-%                 end
-%             end
-%         else
-%             if i == 1
-%                 tree.Yes = ID3(s_y, attributes);
-%             elseif i == 2
-%                 tree.No = ID3(s_n, attributes);
-%             end
-%         end
-%     end
 end
 
 

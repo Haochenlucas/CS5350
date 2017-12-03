@@ -1,18 +1,18 @@
-function w = SVM_ssgd(data,T,r,C)
+function w = SVM_over_tree(data,T,r,C)
 
-%70000+ features
-w = zeros(70000,1);
+% length of tree + 1
+w = zeros(length(data),1);
 
 % Run for T epoches
 for i = 1: T
     % shuffle the data sets
     data = data(randperm(end));
     for j = 1 : length(data)
-        label = data(j).label;
-        y = label(1);
-        features = label(2:end);
+        label = data(j,:);
+        y = label(length(data));
+        features = label(1:end-1);
         len_feat = length(features);
-        x = zeros(70000,1);
+        x = zeros(length(data),1,1);
         for k = 1:len_feat
            x(features(k)) = 1;
         end
@@ -24,4 +24,5 @@ for i = 1: T
         end
     end
 end
+
 
