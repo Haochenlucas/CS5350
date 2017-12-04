@@ -11,6 +11,7 @@ w = zeros(70000,1);
 for i = 1: T
     % shuffle the data sets
     data = data(randperm(end));
+    t = 0;
     for j = 1 : length(data)
         label = data(j).label;
         y = label(1);
@@ -20,7 +21,10 @@ for i = 1: T
         for k = 1:len_feat
            x(features(k)) = 1;
         end
-        temp = exp(-y * w' * x);
-        w = w - r * ((temp * (-y) * x)/(1 + temp) + 2 * w/(sigma_sqr));
+        cur_r = r / (1+t);
+        temp = exp(y * w' * x);
+        w = w - cur_r * (((-y) * x)/(1 + temp) + 2 * w/(sigma_sqr));
+    
+        t = t + 1;
     end
 end

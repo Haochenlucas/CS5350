@@ -7,6 +7,7 @@ w = zeros(70000,1);
 for i = 1: T
     % shuffle the data sets
     data = data(randperm(end));
+    t = 0;
     for j = 1 : length(data)
         label = data(j).label;
         y = label(1);
@@ -17,11 +18,13 @@ for i = 1: T
            x(features(k)) = 1;
         end
         
+        cur_r = r / (1+t);
         if y * w' * x <= 1
-            w = (1-r) * w + r * C * y * x;
+            w = (1-cur_r) * w + cur_r * C * y * x;
         else
-            w = (1-r);
+            w = (1-cur_r) * w;
         end
+        t = t + 1;
     end
 end
 

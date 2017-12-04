@@ -16,11 +16,11 @@ for j = 1 : length(data)
         instance(features(feat)) = 1;
     end
     
-    if y * w' * instance <= 1
+    if y * w' * instance < 0
         error = error + 1;
         mistakes = [mistakes; j];
     end
 end
 
 error = error/length(data);
-acc = 1 - error;
+acc = 100*(1 - error);

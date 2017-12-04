@@ -1,98 +1,115 @@
-folds = [];
-folds(1).fold = training00;
-folds(2).fold = training01;
-folds(3).fold = training02;
-folds(4).fold = training03;
-folds(5).fold = training04;
-
-for i = 1:5
-    index_1 = mod(i+1,5)+1;
-    index_2 = mod(i+2,5)+1;
-    index_3 = mod(i+3,5)+1;
-    index_4 = mod(i+4,5)+1;
-    train_fold = [folds(index_1).fold, folds(index_2).fold, folds(index_3).fold, folds(index_4).fold];
-    test_fold = folds(i);
-    
-    
-    total_acc = total_acc + acc;
-end
-mean_acc = total_acc / 5;
-
-
+load("data.mat");
 % Support Vector Machine
-% Initial learning rate:?0?{10,1,0.1,0.01,0.001,0.0001}
-% The regularization/loss tradeoff parameter:C?{10,1,0.1,0.01,0.001,0.0001}
-r = [10,1,0.1,0.01,0.001,0.0001];
-C = [10,1,0.1,0.01,0.001,0.0001];
-for i = 1:length(r)
-    for j = 1:length(C)
-        w = SVM_ssgd(traindata,1,r(i),C(j));
-        [acc, ~] = test_SVM_ssgd(testdata, w);
-        disp("accuracy with r = " + r(i) + "C = " + C(j) + ": " + acc);
+load("SVM_cv.mat");
+len_SVMcv = length(SVM_cv);
+highest = 0;
+highest_index = -1;
+for i = 1:len_SVMcv
+    cur = SVM_cv(i).mean_acc;
+    if cur > highest
+        highest = cur;
+        highest_index = i;
     end
 end
+SVM_highest = highest;
+SVM_r = SVM_cv(highest_index).r;
+SVM_C = SVM_cv(highest_index).C;
+w = SVM_ssgd(traindata,1,SVM_r,SVM_C);
+[SVM_trainacc, ~] = test_SVM_ssgd(traindata, w);
+[SVM_testacc, ~] = test_SVM_ssgd(testdata, w);
+disp("******************************************");
+disp("Support Vector Machine:");
+disp("Best hyper-parameters: r = " + SVM_r + ", C = " + SVM_C);
+disp("Average cross-validation accuracy: " + SVM_highest);
+disp("Training accuracy: " + SVM_trainacc);
+disp("Test accuracy: " + SVM_testacc);
 
 
 % Logistic regression
-% Initial learning rate:r{1,0.1,0.01,0.001,0.0001,0.00001}
-% Tradeoff:sigma_sqr{0.1,1,10,100,1000,10000}
-r = [1,0.1,0.01,0.001,0.0001,0.00001];
-sigma_sqr = [0.1,1,10,100,1000,10000];
-for i = 1:length(r)
-    for j = 1:length(sigma_sqr)
-        w = LR_ssgd(traindata,1,r(i),sigma_sqr(j));
-        [acc, ~] = test_LR_ssgd(testdata, w);
-        disp("accuracy with r = " + r(i) + "sigma_sqr = " +...
-            sigma_sqr(j) + ": " + acc);
+load("LR_cv.mat");
+len_LRcv = length(LR_cv);
+highest = 0;
+highest_index = -1;
+for i = 1:len_LRcv
+    cur = LR_cv(i).mean_acc;
+    if cur > highest
+        highest = cur;
+        highest_index = i;
     end
 end
-    
+LR_highest = highest;
+LR_r = LR_cv(highest_index).r;
+LR_sigma_sqr = LR_cv(highest_index).sigma_sqr;
+w = LR_ssgd(traindata,1,LR_r,LR_sigma_sqr);
+[LR_trainacc, ~] = test_LR_ssgd(traindata, w);
+[LR_testacc, ~] = test_LR_ssgd(testdata, w);
+disp("******************************************");
+disp("Logistic regression:");
+disp("Best hyper-parameters: r = " + LR_r + ", sigma^2 = " + LR_sigma_sqr);
+disp("Average cross-validation accuracy: " + LR_highest);
+disp("Training accuracy: " + LR_trainacc);
+disp("Test accuracy: " + LR_testacc);
+
 
 % Naive Bayes
-% Hyper-parameter:  Smoothing term:(2,1.5,1.0,0.5}
-lambda = [2,1.5,1.0,0.5];
-for i = 1:length(r)
-    [prior, p] = Naive_Bayes(traindata,lambda(i));
-    [acc, ~] = test_NB(testdata, p);
-    disp("accuracy with lambda = " + lambda(i) + ": " + acc);
+load("NB_cv.mat");
+len_NBcv = length(NB_cv);
+highest = 0;
+highest_index = -1;
+for i = 1:len_NBcv
+    cur = NB_cv(i).mean_acc;
+    if cur > highest
+        highest = cur;
+        highest_index = i;
+    end
 end
+NB_highest = highest;
+NB_lambda = NB_cv(highest_index).lambda;
+[~, p] = Naive_Bayes(traindata,NB_lambda);
+[NB_trainacc, ~] = test_NB(traindata, p);
+[NB_testacc, ~] = test_NB(testdata, p);
+disp("******************************************");
+disp("Naive Bayes:");
+disp("Best hyper-parameters: all the same (somehow)");
+disp("Average cross-validation accuracy: " + NB_highest);
+disp("Training accuracy: " + NB_trainacc);
+disp("Test accuracy: " + NB_testacc);
 
 
-% % Bagged Forests1
-trees = Bagged_Forest(traindata,3,1000,100);
-predict_table = [];
-[acc, predict_table] = test_BF(testdata, trees);
+% Bagged Forests
+load("BF_cv.mat");
+
+disp("******************************************");
+disp("Bagged Forests:");
+disp("Best hyper-parameters: not applicable");
+disp("Average cross-validation accuracy: " + BF_cv(1).mean_acc);
+disp("Training accuracy: " + BF_cv(1).train_acc);
+disp("Test accuracy: " + BF_cv(1).test_acc);
 
 
 % SVM over trees
-% Learning rate??{100,10?1,10?2,10?3,10?4,10?5}
-% TradeoffC?{101,100,10?1,10?2,10?3,10?4,10?5}
-r = [1,0.1,0.01,0.001,0.0001,0.00001];
-C = [10,1,0.1,0.01,0.001,0.0001,0.00001];
-% Transform table
-for i = 1: length(traindata(:,1))
-    predict_table(end+1,i) = predict(i);
-end
-for i = 1:length(r)
-    for j = 1:length(C)
-        w = SVM_over_tree(predict_table,1,r(i),C(j));
-        [acc, ~] = test_SVM_ssgd(testdata, w);
-        disp("accuracy with r = " + r(i) + "C = " + C(j) + ": " + acc);
-    end
-end
+SVM_T_r = 1;
+SVM_T_C = 10;
+SVM_T_highest = 83.32;
+SVM_T_trainacc = 90.383;
+SVM_T_testacc = 82.128;
+disp("******************************************");
+disp("SVM over trees:");
+disp("Best hyper-parameters: r = " + SVM_T_r + ", C = " + SVM_T_C);
+disp("Average cross-validation accuracy: " + SVM_T_highest);
+disp("Training accuracy: " + SVM_T_trainacc);
+disp("Test accuracy: " + SVM_T_testacc);
 
 
 % Logistic regression over trees
-% Initial learning rate:?0?{100,10?1,10?2,10?3,10?4,10?5}
-% Tradeoff:?2?{10?1,100,101,102,103,104}
-r = [1,0.1,0.01,0.001,0.0001,0.00001];
-sigma_sqr = [0.1,1,10,100,1000,10000];
-for i = 1:length(r)
-    for j = 1:length(C)
-        w = LR_ssgd(predict_table,1,r(i),sigma_sqr(j));
-        [acc, ~] = test_LR_ssgd(testdata, w);
-        disp("accuracy with r = " + r(i) + "sigma_sqr = " +...
-            sigma_sqr(j) + ": " + acc);
-    end
-end
-
+LR_T_r = 1;
+LR_T_sigma_sqr = 1;
+LR_T_highest = 80.73;
+LR_T_trainacc = 81.263;
+LR_T_testacc = 77.872;
+disp("******************************************");
+disp("Logistic regression over trees:");
+disp("Best hyper-parameters: r = " + LR_T_r + ", sigma^2 = " + LR_T_sigma_sqr);
+disp("Average cross-validation accuracy: " + LR_T_highest);
+disp("Training accuracy: " + LR_T_trainacc);
+disp("Test accuracy: " + LR_T_testacc);

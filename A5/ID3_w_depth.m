@@ -21,7 +21,7 @@ pruned_tree = struct('value', 'null', 'Yes', 'null', 'No', 'null');
 labels_num = length(s(:,1));
 all_same_label = 1;
 sum_label = sum(s(:,70000));
-if (sum_label ~= labels_num || sum_label ~= -labels_num) && labels_num ~= 0
+if sum_label ~= labels_num && sum_label ~= 0 && labels_num ~= 0
     all_same_label = 0;
 end
 
@@ -41,8 +41,6 @@ if all_same_label
     end
 else
     % Labels which attributes are available
-    best = information_gain(s, attributes);
-    
     best = information_gain(s, attributes);
     pruned_tree.value = best;
     attributes(best) = 0;
