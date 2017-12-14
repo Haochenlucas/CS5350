@@ -26,7 +26,7 @@ function table = parse_data_dynamicPerceptron(table)
 len = length(table(:,1));
 for i = 1:len
     table(i,1:end-1) = table(i,1:end-1)./norm(table(i,1:end-1));
-    if table(i,end)<= 4
+    if table(i,end)< 4
         table(i,end) = 1;
     else
         table(i,end) = -1;
