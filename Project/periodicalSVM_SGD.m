@@ -9,9 +9,9 @@ function [w, b, errors] = periodicalSVM_SGD( data,learningRate,epochs)
              y = data(i,len);
              x = data(i,1:len-1);
              if y*sin(w*x'+b) <= 0.025
-                 dynamicRate = learningRate/step;
-                 w = w+ dynamicRate*y*x*cos(w*x'+b);
-                 b = b + dynamicRate*y*cos(w*x'+b);
+                 dynamicRate = learningRate/epoch;
+                 w = w+ dynamicRate*y*x;
+                 b = b + dynamicRate*y;
                  errors = errors +1;
              end             
         end
